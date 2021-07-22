@@ -9,11 +9,15 @@ img {
 
 
 .body-app {
+    background-size: cover; 
     background-color: #141218;
     font-family: 'Roboto', sans-serif;
     color: #FFFFFF;
     min-height: 100vh;
-    display: flex;
+    display: grid;
+    /*display:block;*/
+    margin:auto;
+    /*display: flex;*/
     flex-direction: column;
     background-repeat: no-repeat;
     background-position: top right 20%;
@@ -92,7 +96,8 @@ img {
 .main-title {
     font-size: 76px;
     line-height: 89px;
-    font-family: serif;
+    font-family: sans-serif;
+    /*font-family: serif;*/
     margin-bottom: 10px;
     animation-delay: 0.5s;
 }
