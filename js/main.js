@@ -166,7 +166,7 @@ const movieConstructor = (selector, options) => {
 
 movieConstructor('.app', {
 	title: 'The Division 2',
-	background: 'assets/img/background.png',
+	background: 'assets/img/background5.png',
 	header: {
 		logo: 'assets/img/logo.png',
 		social: [{
