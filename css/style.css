@@ -14,10 +14,10 @@ img {
     font-family: 'Roboto', sans-serif;
     color: #FFFFFF;
     min-height: 100vh;
-    display: grid;
+    /*display: grid;
     /*display:block;*/
     margin:auto;
-    /*display: flex;*/
+    display: flex;
     flex-direction: column;
     background-repeat: no-repeat;
     background-position: top right 20%;
@@ -109,7 +109,7 @@ img {
 
 .main-description {
     color:floralwhite;
-    text-shadow: 1px 1px 2px black;
+    text-shadow: 1px 1px 2px black, 0 0 1em white;
     max-width: 458px;
     font-size: 14px;
     line-height: 150%;
