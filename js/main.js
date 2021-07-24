@@ -35,6 +35,12 @@ const createHeader = ({title, header: {logo, menu, social}}) => {
 		});
 		nav.append(...allMenuLink);
 		wrapper.append(nav);
+		const menuBtn = getElement('button', ['menu-button']);
+		menuBtn.addEventListener('click', () => {
+			menuBtn.classList.toggle('menu-button-active');
+			wrapper.classList.toggle('header-active');
+		});
+		container.append(menuBtn);
 	};
 	//social link
 	if (social) {
@@ -52,18 +58,6 @@ const createHeader = ({title, header: {logo, menu, social}}) => {
 		socialWrapper.append(...allSocial);
 		wrapper.append(socialWrapper);
 	};
-
-	if(menu){
-		const menuBtn = getElement('button', ['menu-button']);
-		menuBtn.addEventListener('click', () => {
-			menuBtn.classList.toggle('menu-button-active');
-			wrapper.classList.toggle('header-active');
-		});
-		container.append(menuBtn);
-	};
-
-
-
 	// add all to page	
 	header.append(container);
 	container.append(wrapper);
@@ -76,7 +70,8 @@ const createMain = ({
 		genre,
 		rating,
 		description,
-		trailer
+		trailer,
+		slider
 	}
 }) => {
 	const main = getElement('main');
@@ -150,6 +145,61 @@ const createMain = ({
 		wrapper.append(youtubeImgLink);
 
 	};
+
+	if(slider){
+		const sliderBlock = getElement('div', ['series']);
+		const swiperBlock = getElement('div', ['swiper-container']);
+		const swiperWrapper = getElement('div', ['swiper-wrapper']);
+		const arrow = getElement('button', ['arrow']);
+		
+		const slides = slider.map((item) => {			
+			
+			const swiperSlide = getElement('div', ['swiper-slide']);
+			const card = getElement('figure', ['card']);
+			const cardImage = getElement('img', ['card-img'], {
+				src: item.img,
+				alt: ((item.title || '')+ ' '+(item.subtitle || '')).trim()
+			});
+
+			card.append(cardImage);
+
+			if(item.title || item.subtitle){
+				const cardDescription = getElement('figcaption', ['card-description']);
+				cardDescription.innerHTML = `
+					${item.subtitle ? `<p class="card-subtitle">${item.subtitle}</p>` : '' }
+					${item.title ? `<p class="card-title">${item.title}</p>` : '' }
+				`;
+
+				card.append(cardDescription)
+			}
+			swiperSlide.append(card);
+			return swiperSlide;
+		});
+		swiperWrapper.append(...slides);
+		swiperBlock.append(swiperWrapper);
+		sliderBlock.append(swiperBlock, arrow);
+
+		container.append(sliderBlock);
+
+		new Swiper(swiperBlock, {
+			loop: true,
+			navigation: {
+				nextEl: arrow,
+			},
+			breakpoints: {
+				320:{
+					slidesPerView: 1,
+					spaceBetween: 20
+				},
+				542: {
+					slidesPerView: 2,
+					spaceBetween: 40
+				}
+			}
+		});
+	}
+
+
 	return main;
 };
 
@@ -158,7 +208,6 @@ const createMain = ({
 const movieConstructor = (selector, options) => {
 	const app = document.querySelector(selector);
 	app.classList.add('body-app');
-
 	if(options.favicon){
 		const index = options.favicon.lastIndexOf('.');
 		const type = options.favicon.substring(index + 1);		 
@@ -171,17 +220,13 @@ const movieConstructor = (selector, options) => {
 	}
 	app.style.backgroundImage = options.background ?
 		`url("${options.background}")` : '';
-
-
 	document.title = options.title;
-
 	if (options.header) {
 		app.append(createHeader(options));
 	}
 	if (options.main) {
 		app.append(createMain(options));
 	}
-
 };
 
 
@@ -226,7 +271,31 @@ movieConstructor('.app', {
 		rating: 7,
 		description: 'В Tom Clancy`s The Division®2 Вашингтон предстанет таким, каким вы его еще нигде не видели: город воссоздан один в один, что позволило добиться непревзойденной правдоподобности окружающего мира. Вы сможете вблизи рассмотреть все достопримечательности, ориентиры, городские районы и вражеские логова.',
 		trailer: 'https://www.youtube.com/watch?v=7NTKO4Y-JmY',
-
+		slider: [
+			{
+				img: 'assets/img/sliders/series-1.png',
+				title: 'Начало конца',
+				subtitle: 'The Division',				
+			},
+			{
+				img: 'assets/img/sliders/series-2.png',
+				title: 'Кризис на Капитолийском холме',
+				subtitle: 'The Division 2',
+			},
+			{
+				img: 'assets/img/sliders/series-3.png',
+				title: 'ТЕНИ СГУЩАЮТСЯ',
+				subtitle: 'СЕЗОН 1/5',
+			},
+			{
+				img: 'assets/img/sliders/series-4.png',
+				title: 'Наследие Кинера',
+				subtitle: 'СЕЗОН 2',
+			},
+			{img: 'assets/img/sliders/series-5.png',},
+			{img: 'assets/img/sliders/series-6.png',},
+			{img: 'assets/img/sliders/series-7.png',},
+		]
 	}
 });
 
