@@ -11,22 +11,22 @@ const getElement = (tagName, classNames, attributes) => {
 	return element;
 };
 //Add classes and images to head?
-const createHeader = (param) => {
+const createHeader = ({title, header: {logo, menu, social}}) => {
 	const header = getElement('header');
 	const container = getElement('div', ['container']);
 	const wrapper = getElement('div', ['header']);
 	//logo img
-	if (param.header.logo) {
-		const logo = getElement('img', ['logo'], {
-			src: param.header.logo,
-			alt: 'Логотип ' + param.title,
+	if (logo) {
+		const logoElem = getElement('img', ['logo'], {
+			src: logo,
+			alt: 'Логотип ' + title,
 		});
-		wrapper.append(logo);
+		wrapper.append(logoElem);
 	};
 	//menu link
-	if (param.header.menu) {
+	if (menu) {
 		const nav = getElement('nav', ['menu-list']);
-		const allMenuLink = param.header.menu.map(item => {
+		const allMenuLink = menu.map(item => {
 			const link = getElement('a', ['menu-link'], {
 				href: item.link,
 				textContent: item.title
@@ -37,9 +37,9 @@ const createHeader = (param) => {
 		wrapper.append(nav);
 	};
 	//social link
-	if (param.header.social) {
+	if (social) {
 		const socialWrapper = getElement('div', ['social']);
-		const allSocial = param.header.social.map(item => {
+		const allSocial = social.map(item => {
 			const socialLink = getElement('a', ['social-link']);
 			socialLink.append(getElement('img', [], {
 				src: item.image,
@@ -52,8 +52,19 @@ const createHeader = (param) => {
 		socialWrapper.append(...allSocial);
 		wrapper.append(socialWrapper);
 	};
-	// add all to page		
 
+	if(menu){
+		const menuBtn = getElement('button', ['menu-button']);
+		menuBtn.addEventListener('click', () => {
+			menuBtn.classList.toggle('menu-button-active');
+			wrapper.classList.toggle('header-active');
+		});
+		container.append(menuBtn);
+	};
+
+
+
+	// add all to page	
 	header.append(container);
 	container.append(wrapper);
 	return header;
@@ -75,6 +86,7 @@ const createMain = ({
 	container.append(wrapper);
 	const content = getElement('div', ['content']);
 	wrapper.append(content);
+	//add genre
 	if (genre) {
 		const genreSpan = getElement('span',
 			['genre', 'animated', 'fadeInRight'], {
@@ -138,8 +150,6 @@ const createMain = ({
 		wrapper.append(youtubeImgLink);
 
 	};
-
-
 	return main;
 };
 
@@ -148,6 +158,17 @@ const createMain = ({
 const movieConstructor = (selector, options) => {
 	const app = document.querySelector(selector);
 	app.classList.add('body-app');
+
+	if(options.favicon){
+		const index = options.favicon.lastIndexOf('.');
+		const type = options.favicon.substring(index + 1);		 
+		const favicon = getElement('link', null, {
+			rel: 'icon',
+			href: options.favicon,
+			type: 'image/' + (type === 'svg' ? 'svg-xml' : type)
+		});
+		document.head.append(favicon);
+	}
 	app.style.backgroundImage = options.background ?
 		`url("${options.background}")` : '';
 
@@ -166,7 +187,8 @@ const movieConstructor = (selector, options) => {
 
 movieConstructor('.app', {
 	title: 'The Division 2',
-	background: 'assets/img/background5.png',
+	background: 'assets/img/background.png',
+	favicon: 'assets/img/favicon.png',
 	header: {
 		logo: 'assets/img/logo.png',
 		social: [{
