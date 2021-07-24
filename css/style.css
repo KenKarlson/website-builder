@@ -235,9 +235,9 @@ body{
 
 .arrow {
     width: 32px;
-    height: 23px;
+    height: 32px;
     border: none;
-    background-image: url('../img/arrow.svg');
+    background-image: url('../img/arrow.png');
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent;
