@@ -63,6 +63,7 @@ const createHeader = ({title, header: {logo, menu, social}}) => {
 	container.append(wrapper);
 	return header;
 };
+
 // main
 const createMain = ({
 	title,
@@ -202,12 +203,40 @@ const createMain = ({
 
 	return main;
 };
+//footer
+const createFooter = ({footer: {copyright, footer_menu}}) => {
+	const footer = getElement('div', ['footer']);
+	const container = getElement('div', ['container']);
+	footer.append(container);
+	const footerContent = getElement('div', ['footer-content']);
+	container.append(footerContent);
+	const leftContent = getElement('div', ['left']); 
+	const rightContent = getElement('div', ['right']);
+	footerContent.append(leftContent, rightContent);
+	
+	const footerMenu = getElement('footer-menu');
+	const footerLink = getElement('footer-link');
+
+	if(copyright){
+		const copyElem = getElement('copyright');
+		leftContent.append({textContent: copyright});
+
+	}
+	return footer;
+
+};
 
 
 //start
 const movieConstructor = (selector, options) => {
 	const app = document.querySelector(selector);
 	app.classList.add('body-app');
+
+	app.style.color = options.fontcolor || '';
+	app.style.backgroundColor = options.backgroundColor || '';
+if(options.subColor){
+	document.documentElement.style.setProperty('---sub-color', options.subColor);
+}
 	if(options.favicon){
 		const index = options.favicon.lastIndexOf('.');
 		const type = options.favicon.substring(index + 1);		 
@@ -227,6 +256,9 @@ const movieConstructor = (selector, options) => {
 	if (options.main) {
 		app.append(createMain(options));
 	}
+	if(options.footer) {
+		app.append(createFooter(options));
+	}
 };
 
 
@@ -234,6 +266,9 @@ movieConstructor('.app', {
 	title: 'The Division 2',
 	background: 'assets/img/background.png',
 	favicon: 'assets/img/favicon.png',
+	fontColor: '#ffffff',
+	backgroundColor: '#141218',
+	subColor: '#9D2929', 
 	header: {
 		logo: 'assets/img/logo.png',
 		social: [{
@@ -296,6 +331,21 @@ movieConstructor('.app', {
 			{img: 'assets/img/sliders/series-6.png',},
 			{img: 'assets/img/sliders/series-7.png',},
 		]
+	},
+	footer: {
+		copyright: 'Hello World !!!',
+		footer_menu: [{
+			title: 'Privacy Policy',
+				link: '#',
+			},
+			{
+				title: 'Terms of Service',
+				link: '#',
+			},
+			{
+				title: 'Legal',
+				link: '#',
+		}]
 	}
 });
 
