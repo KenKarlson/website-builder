@@ -212,16 +212,17 @@ const createFooter = ({footer: {copyright, footer_menu}}) => {
 	container.append(footerContent);
 	const leftContent = getElement('div', ['left']); 
 	const rightContent = getElement('div', ['right']);
-	footerContent.append(leftContent, rightContent);
-	
-	const footerMenu = getElement('footer-menu');
-	const footerLink = getElement('footer-link');
+	footerContent.append(leftContent, rightContent);	
+	const copyRight = getElement('div', ['copyright']);
+	leftContent.append(copyRight);
+	//const footerLink = getElement('footer-link');
 
 	if(copyright){
-		const copyElem = getElement('copyright');
-		leftContent.append({textContent: copyright});
-
+		const copyElem =  '© 2021 The Division®2. All right reserved.';
+		copyRight.append(copyElem);
 	}
+
+	
 	return footer;
 
 };
