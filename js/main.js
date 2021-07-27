@@ -11,7 +11,14 @@ const getElement = (tagName, classNames, attributes) => {
 	return element;
 };
 //Add classes and images to head?
-const createHeader = ({title, header: {logo, menu, social}}) => {
+const createHeader = ({
+	title,
+	header: {
+		logo,
+		menu,
+		social
+	}
+}) => {
 	const header = getElement('header');
 	const container = getElement('div', ['container']);
 	const wrapper = getElement('div', ['header']);
@@ -147,24 +154,24 @@ const createMain = ({
 
 	};
 
-	if(slider){
+	if (slider) {
 		const sliderBlock = getElement('div', ['series']);
 		const swiperBlock = getElement('div', ['swiper-container']);
 		const swiperWrapper = getElement('div', ['swiper-wrapper']);
 		const arrow = getElement('button', ['arrow']);
-		
-		const slides = slider.map((item) => {			
-			
+
+		const slides = slider.map((item) => {
+
 			const swiperSlide = getElement('div', ['swiper-slide']);
 			const card = getElement('figure', ['card']);
 			const cardImage = getElement('img', ['card-img'], {
 				src: item.img,
-				alt: ((item.title || '')+ ' '+(item.subtitle || '')).trim()
+				alt: ((item.title || '') + ' ' + (item.subtitle || '')).trim()
 			});
 
 			card.append(cardImage);
 
-			if(item.title || item.subtitle){
+			if (item.title || item.subtitle) {
 				const cardDescription = getElement('figcaption', ['card-description']);
 				cardDescription.innerHTML = `
 					${item.subtitle ? `<p class="card-subtitle">${item.subtitle}</p>` : '' }
@@ -188,7 +195,7 @@ const createMain = ({
 				nextEl: arrow,
 			},
 			breakpoints: {
-				320:{
+				320: {
 					slidesPerView: 1,
 					spaceBetween: 20
 				},
@@ -204,25 +211,34 @@ const createMain = ({
 	return main;
 };
 //footer
-const createFooter = ({footer: {copyright, footer_menu}}) => {
+const createFooter = ({
+	footer: {
+		copyright,
+		footer_menu
+	}
+}) => {
 	const footer = getElement('div', ['footer']);
 	const container = getElement('div', ['container']);
 	footer.append(container);
 	const footerContent = getElement('div', ['footer-content']);
 	container.append(footerContent);
-	const leftContent = getElement('div', ['left']); 
+	const leftContent = getElement('div', ['left']);
 	const rightContent = getElement('div', ['right']);
-	footerContent.append(leftContent, rightContent);	
+	footerContent.append(leftContent, rightContent);
 	const copyRight = getElement('div', ['copyright']);
 	leftContent.append(copyRight);
+
 	//const footerLink = getElement('footer-link');
 
-	if(copyright){
-		const copyElem =  '© 2021 The Division®2. All right reserved.';
-		copyRight.append(copyElem);
+	if (copyright) {
+		//copyright.textContent = copyright;
+		//console.log(copyright);
+		copyRight.textContent = copyright;
+	}
+	if (footer_menu) {
+		const menuElem = getElement('div', ['right']);
 	}
 
-	
 	return footer;
 
 };
@@ -235,12 +251,12 @@ const movieConstructor = (selector, options) => {
 
 	app.style.color = options.fontcolor || '';
 	app.style.backgroundColor = options.backgroundColor || '';
-if(options.subColor){
-	document.documentElement.style.setProperty('---sub-color', options.subColor);
-}
-	if(options.favicon){
+	if (options.subColor) {
+		document.documentElement.style.setProperty('---sub-color', options.subColor);
+	}
+	if (options.favicon) {
 		const index = options.favicon.lastIndexOf('.');
-		const type = options.favicon.substring(index + 1);		 
+		const type = options.favicon.substring(index + 1);
 		const favicon = getElement('link', null, {
 			rel: 'icon',
 			href: options.favicon,
@@ -257,7 +273,7 @@ if(options.subColor){
 	if (options.main) {
 		app.append(createMain(options));
 	}
-	if(options.footer) {
+	if (options.footer) {
 		app.append(createFooter(options));
 	}
 };
@@ -269,7 +285,7 @@ movieConstructor('.app', {
 	favicon: 'assets/img/favicon.png',
 	fontColor: '#ffffff',
 	backgroundColor: '#141218',
-	subColor: '#9D2929', 
+	subColor: '#9D2929',
 	header: {
 		logo: 'assets/img/logo.png',
 		social: [{
@@ -307,11 +323,10 @@ movieConstructor('.app', {
 		rating: 7,
 		description: 'В Tom Clancy`s The Division®2 Вашингтон предстанет таким, каким вы его еще нигде не видели: город воссоздан один в один, что позволило добиться непревзойденной правдоподобности окружающего мира. Вы сможете вблизи рассмотреть все достопримечательности, ориентиры, городские районы и вражеские логова.',
 		trailer: 'https://www.youtube.com/watch?v=7NTKO4Y-JmY',
-		slider: [
-			{
+		slider: [{
 				img: 'assets/img/sliders/series-1.png',
 				title: 'Начало конца',
-				subtitle: 'The Division',				
+				subtitle: 'The Division',
 			},
 			{
 				img: 'assets/img/sliders/series-2.png',
@@ -328,15 +343,23 @@ movieConstructor('.app', {
 				title: 'Наследие Кинера',
 				subtitle: 'СЕЗОН 2',
 			},
-			{img: 'assets/img/sliders/series-5.png',},
-			{img: 'assets/img/sliders/series-6.png',},
-			{img: 'assets/img/sliders/series-7.png',},
+			{
+				img: 'assets/img/sliders/series-5.png',
+			},
+			{
+				img: 'assets/img/sliders/series-6.png',
+				title: 'НЕБОСКРЕБ "САММИТ"',
+				subtitle: 'БОНУС 1',
+			},
+			{
+				img: 'assets/img/sliders/series-7.png',
+			},
 		]
 	},
 	footer: {
-		copyright: 'Hello World !!!',
+		copyright: '© 2021 The Division®2. All right reserved.',
 		footer_menu: [{
-			title: 'Privacy Policy',
+				title: 'Privacy Policy',
 				link: '#',
 			},
 			{
@@ -346,7 +369,8 @@ movieConstructor('.app', {
 			{
 				title: 'Legal',
 				link: '#',
-		}]
+			}
+		]
 	}
 });
 
