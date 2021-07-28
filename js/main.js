@@ -1,3 +1,4 @@
+
 const getElement = (tagName, classNames, attributes) => {
 	const element = document.createElement(tagName);
 	if (classNames) {
@@ -227,16 +228,15 @@ const createFooter = ({
 	footerContent.append(leftContent, rightContent);
 	const copyRight = getElement('div', ['copyright']);
 	leftContent.append(copyRight);
+	const footerMenu = getElement('div', ['footer-menu']);
+	rightContent.append(footerMenu);
 
-	//const footerLink = getElement('footer-link');
 
 	if (copyright) {
-		//copyright.textContent = copyright;
-		//console.log(copyright);
 		copyRight.textContent = copyright;
 	}
 	if (footer_menu) {
-		const menuElem = getElement('div', ['right']);
+		
 	}
 
 	return footer;
